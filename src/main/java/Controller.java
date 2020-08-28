@@ -1,3 +1,4 @@
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -11,4 +12,11 @@ public class Controller {
 
   }
 
+  public void addProduct(ActionEvent actionEvent) {
+    System.out.println("You pressed 'Add Product'");
+  }
+
+  public void recordProduction(ActionEvent actionEvent) {
+    System.out.println("You pressed 'Record Product'");
+  }
 }
