@@ -43,13 +43,13 @@
                 <Label text="Product Name"/>
                 <Label text="Manufacturer" GridPane.rowIndex="1"/>
                 <Label text="Item Type" GridPane.rowIndex="2"/>
-                <TextField GridPane.columnIndex="1"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <TextField fx:id="txtProductName" GridPane.columnIndex="1"/>
+                <TextField fx:id="txtManufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                 <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
               </children>
             </GridPane>
-            <Button layoutX="197.0" layoutY="103.0" mnemonicParsing="false" onAction="#addProduct"
-              text="Add Product"/>
+            <Button fx:id="btnAddProduct" layoutX="197.0" layoutY="103.0" mnemonicParsing="false"
+              onAction="#addProduct" text="Add Product"/>
             <TableView layoutX="14.0" layoutY="153.0" prefHeight="200.0" prefWidth="270.0">
               <columns>
                 <TableColumn prefWidth="90.0" text="Product Name"/>
@@ -70,8 +70,8 @@
             <ListView layoutX="14.0" layoutY="31.0" prefHeight="200.0" prefWidth="200.0"/>
             <Label layoutX="225.0" layoutY="14.0" text="Choose Quantity"/>
             <ComboBox layoutX="225.0" layoutY="31.0" prefWidth="150.0"/>
-            <Button layoutX="466.0" layoutY="326.0" mnemonicParsing="false"
-              onAction="#recordProduction" text="Record Production"/>
+            <Button fx:id="btnRecordProduction" layoutX="255.0" layoutY="204.0"
+              mnemonicParsing="false" onAction="#recordProduction" text="Record Production"/>
           </children>
         </AnchorPane>
       </content>

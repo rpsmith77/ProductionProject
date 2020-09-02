@@ -1,16 +1,16 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 public class Controller {
 
   @FXML
-  private Label lblOutput;
+  public TextField txtProductName;
+  public TextField txtManufacturer;
+  public Button btnAddProduct;
+  public Button btnRecordProduction;
 
-  public void sayHello() {
-    lblOutput.setText("Hello FXML!");
-
-  }
 
   public void addProduct(ActionEvent actionEvent) {
     System.out.println("You pressed 'Add Product'");

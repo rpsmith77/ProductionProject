@@ -30,7 +30,7 @@ public class Main extends Application {
 
     Scene scene = new Scene(root, 600, 400);
 
-    primaryStage.setTitle("FXML Welcome");
+    primaryStage.setTitle("Production Project");
     primaryStage.setScene(scene);
     primaryStage.show();
   }
