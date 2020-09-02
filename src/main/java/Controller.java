@@ -6,10 +6,16 @@ import javafx.scene.control.TextField;
 public class Controller {
 
   @FXML
-  public TextField txtProductName;
-  public TextField txtManufacturer;
-  public Button btnAddProduct;
-  public Button btnRecordProduction;
+  private TextField txtProductName;
+
+  @FXML
+  private TextField txtManufacturer;
+
+  @FXML
+  private Button btnAddProduct;
+
+  @FXML
+  private Button btnRecordProduction;
 
 
   public void addProduct(ActionEvent actionEvent) {
