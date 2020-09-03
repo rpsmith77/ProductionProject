@@ -123,84 +123,24 @@ _GUI, basic database_
 
 ```
 create table Product
-```
-
-```
-(
-```
-
-```
-  id int auto_increment,
-```
-
-```
-  name varchar,
-```
-
-```
+(id int auto_increment,
   type varchar,
-```
-
-```
-  manufacturer varchar
-```
-
-```
-);
+  manufacturer varchar);
 ```
 
   
 
 ```
 create unique index Product_id_uindex
-```
-
-```
   on Product (id);
-```
-
-  
-
-```
 alter table Product
-```
-
-```
   add constraint Product_pk
-```
-
-```
     primary key (id);
-```
-
-  
-
-```
 create table ProductionRecord
-```
-
-```
-(
-```
-
-```
- production_num int auto_increment,
-```
-
-```
+(production_num int auto_increment,
  product_id int,
-```
-
-```
  serial_num varchar,
-```
-
-```
- date_produced datetime
-```
-
-```
-);
+ date_produced datetime);
 ```
 
 -   Connect to database
@@ -273,13 +213,7 @@ Add a toString method that will return the following: (example data shown).
 
 ```
 Name: iPod
-```
-
-```
 Manufacturer: Apple
-```
-
-```
 Type: AM
 ```
 
