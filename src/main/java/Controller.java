@@ -120,6 +120,13 @@ public class Controller {
 
       stmt.executeUpdate(sql);
 
+      sql = "SELECT * FROM PRODUCT";
+
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        System.out.println(rs.getString(2));
+      }
+
       // STEP 4: Clean-up environment
       stmt.close();
       conn.close();
