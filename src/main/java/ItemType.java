@@ -1,8 +1,8 @@
 public enum ItemType {
-  Audio("AU"),
-  Visual("VI"),
-  AudioMobile("AM"),
-  VisualMobile("VM");
+  AUDIO("AU"),
+  VISUAL("VI"),
+  AUDIO_MOBILE("AM"),
+  VISUAL_MOBILE("VM");
 
 
   public final String code;
@@ -11,7 +11,7 @@ public enum ItemType {
     this.code = code;
   }
 
-  private String code(){
+  private String code() {
     return code;
   }
 

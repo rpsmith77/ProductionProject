@@ -25,6 +25,10 @@ public abstract class Product implements Item {
     return manufacturer;
   }
 
+  public String getType() {
+    return type;
+  }
+
   Product(String name, String manufacturer, String type) {
     this.name = name;
     this.manufacturer = manufacturer;

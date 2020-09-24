@@ -109,9 +109,12 @@ public class Controller {
       //STEP 3: Execute a query
       stmt = conn.createStatement();
 
-      String prodName = txtProductName.getText();
-      String prodManufacturer = txtManufacturer.getText();
-      String prodItemType = choiceItemType.getValue();
+//      String prodName = txtProductName.getText();
+//      String prodManufacturer = txtManufacturer.getText();
+//      String prodItemType = choiceItemType.getValue();
+      Widget widget = new Widget(txtProductName.getText(),
+          txtManufacturer.getText(), choiceItemType.getValue());
+
 
 //      String sql = "INSERT INTO Product(type, manufacturer, name) "
 //          + "VALUES ( '" + prodItemType + "','" + prodManufacturer + "', '" + prodName + "' )";
@@ -119,9 +122,9 @@ public class Controller {
           + "VALUES (?, ?, ?)";
 
       PreparedStatement preparedStatement = conn.prepareStatement(sql);
-      preparedStatement.setString(1, prodItemType);
-      preparedStatement.setString(2, prodManufacturer);
-      preparedStatement.setString(3, prodName);
+      preparedStatement.setString(1, widget.getType());
+      preparedStatement.setString(2, widget.getManufacturer());
+      preparedStatement.setString(3, widget.getName());
 
       preparedStatement.executeUpdate();
 
