@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,11 +43,16 @@ public class Controller {
 
   public void initialize() {
     connectDb();
+
     for (int i = 1; i <= 10; i++) {
       cmbQuantity.getItems().add(String.valueOf(i));
     }
     cmbQuantity.setEditable(true);
     cmbQuantity.getSelectionModel().selectFirst();
+
+    for (ItemType i : ItemType.values()) {
+      choiceItemType.getItems().add(String.valueOf(i));
+    }
   }
 
   public void connectDb() {
@@ -59,10 +65,6 @@ public class Controller {
     Connection conn = null;
     Statement stmt = null;
 
-    //choiceItemType options
-    String[] choiceItemTypeOptions = new String[1];
-    choiceItemTypeOptions[0] = "AUDIO";
-
     try {
       // STEP 1: Register JDBC driver
       Class.forName(JDBC_DRIVER);
@@ -72,10 +74,6 @@ public class Controller {
 
       //STEP 3: Execute a query
       stmt = conn.createStatement();
-
-      for (int i = 0; i < choiceItemTypeOptions.length; i++) {
-        choiceItemType.getItems().add(choiceItemTypeOptions[i]);
-      }
 
 //      String sql = "INSERT INTO Product(type, manufacturer, name) "
 //          + "VALUES ( 'AUDIO', 'Apple', 'iPod' )";
@@ -115,10 +113,17 @@ public class Controller {
       String prodManufacturer = txtManufacturer.getText();
       String prodItemType = choiceItemType.getValue();
 
+//      String sql = "INSERT INTO Product(type, manufacturer, name) "
+//          + "VALUES ( '" + prodItemType + "','" + prodManufacturer + "', '" + prodName + "' )";
       String sql = "INSERT INTO Product(type, manufacturer, name) "
-          + "VALUES ( '" + prodItemType + "','" + prodManufacturer + "', '" + prodName + "' )";
+          + "VALUES (?, ?, ?)";
 
-      stmt.executeUpdate(sql);
+      PreparedStatement preparedStatement = conn.prepareStatement(sql);
+      preparedStatement.setString(1, prodItemType);
+      preparedStatement.setString(2, prodManufacturer);
+      preparedStatement.setString(3, prodName);
+
+      preparedStatement.executeUpdate();
 
       sql = "SELECT * FROM PRODUCT";
 
