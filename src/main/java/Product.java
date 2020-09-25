@@ -5,6 +5,7 @@ public abstract class Product implements Item {
   private String type;
   private String manufacturer;
 
+
   public int getId() {
     return id;
   }

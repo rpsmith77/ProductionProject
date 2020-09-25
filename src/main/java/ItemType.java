@@ -1,7 +1,7 @@
 public enum ItemType {
   AUDIO("AU"),
-  VISUAL("VI"),
   AUDIO_MOBILE("AM"),
+  VISUAL("VI"),
   VISUAL_MOBILE("VM");
 
 
