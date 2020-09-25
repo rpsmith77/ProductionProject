@@ -16,7 +16,7 @@ public class Controller {
 
   // FXML objects
   @FXML
-  public ChoiceBox<String> choiceItemType;
+  public ChoiceBox<ItemType> choiceItemType;
 
   @FXML
   public ComboBox<String> cmbQuantity;
@@ -58,8 +58,9 @@ public class Controller {
 
     // show valid item types in choice box
     for (ItemType i : ItemType.values()) {
-      choiceItemType.getItems().add(String.valueOf(i));
+      choiceItemType.getItems().add(i);
     }
+    choiceItemType.getSelectionModel().selectFirst();
 
     // test
     testMultimedia();
@@ -132,7 +133,7 @@ public class Controller {
       String sql = "INSERT INTO Product(type, manufacturer, name) "
           + "VALUES (?, ?, ?)";
       PreparedStatement preparedStatement = conn.prepareStatement(sql);
-      preparedStatement.setString(1, widget.getType());
+      preparedStatement.setString(1, widget.getType().toString());
       preparedStatement.setString(2, widget.getManufacturer());
       preparedStatement.setString(3, widget.getName());
       preparedStatement.executeUpdate();

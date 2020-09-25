@@ -7,7 +7,7 @@ public class AudioPlayer extends Product implements MultimediaControl {
   // constructor
   AudioPlayer(String name, String manufacturer, String supportedAudioFormats,
       String supportedPlaylistFormats) {
-    super(name, manufacturer, "AUDIO");
+    super(name, manufacturer, ItemType.AUDIO);
     this.supportedAudioFormats = supportedAudioFormats;
     this.supportedPlaylistFormats = supportedPlaylistFormats;
   }
@@ -19,7 +19,7 @@ public class AudioPlayer extends Product implements MultimediaControl {
 
   // stop audio
   public void stop() {
-    System.out.println("Stopped");
+    System.out.println("Stopping");
   }
 
   // go to previous song
@@ -34,7 +34,7 @@ public class AudioPlayer extends Product implements MultimediaControl {
 
   // display player info
   public String toString() {
-    return super.toString() + "Supported Audio Format: " + supportedAudioFormats + "\n" +
+    return super.toString() + "Supported Audio Formats: " + supportedAudioFormats + "\n" +
         "Supported Playlist Formats: " + supportedPlaylistFormats + "\n";
   }
 }
