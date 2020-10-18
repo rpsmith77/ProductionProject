@@ -10,8 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Controller {
 
@@ -24,6 +27,18 @@ public class Controller {
 
   @FXML
   public TextArea txtAreaProductionLog;
+
+  @FXML
+  public TableView<Product> tableViewProduct;
+
+  @FXML
+  public TableColumn<?, ?> productNameCol;
+
+  @FXML
+  public TableColumn<?, ?> manufacturerNameCol;
+
+  @FXML
+  public TableColumn<?, ?> itemTypeCol;
 
   @FXML
   private TextField txtProductName;
@@ -66,6 +81,10 @@ public class Controller {
     }
     choiceItemType.getSelectionModel().selectFirst();
 
+    productNameCol.setCellFactory(new PropertyValueFactory("productName"));
+    manufacturerNameCol.setCellFactory(new PropertyValueFactory("manufacturerName"));
+    itemTypeCol.setCellFactory(new PropertyValueFactory("itemType"));
+
 
     // test
     testMultimedia();
@@ -91,11 +110,6 @@ public class Controller {
 
       //STEP 3: Execute a query
       stmt = conn.createStatement();
-
-//      String sql = "INSERT INTO Product(type, manufacturer, name) "
-//          + "VALUES ( 'AUDIO', 'Apple', 'iPod' )";
-//
-//      stmt.executeUpdate(sql);
 
       // STEP 4: Clean-up environment
       stmt.close();
@@ -126,15 +140,9 @@ public class Controller {
       //STEP 3: Execute a query
       stmt = conn.createStatement();
 
-//      String prodName = txtProductName.getText();
-//      String prodManufacturer = txtManufacturer.getText();
-//      String prodItemType = choiceItemType.getValue();
+      // take user choices and enter into Product Table
       Widget widget = new Widget(txtProductName.getText(),
           txtManufacturer.getText(), choiceItemType.getValue());
-
-//      String sql = "INSERT INTO Product(type, manufacturer, name) "
-//          + "VALUES ( '" + prodItemType + "','" + prodManufacturer + "', '" + prodName + "' )";
-      // add product to data base
       String sql = "INSERT INTO Product(type, manufacturer, name) "
           + "VALUES (?, ?, ?)";
       PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -142,13 +150,6 @@ public class Controller {
       preparedStatement.setString(2, widget.getManufacturer());
       preparedStatement.setString(3, widget.getName());
       preparedStatement.executeUpdate();
-
-//      sql = "SELECT * FROM PRODUCT";
-//
-//      ResultSet rs = stmt.executeQuery(sql);
-//      while (rs.next()) {
-//        System.out.println(rs.getString(2));
-//      }
 
       // STEP 4: Clean-up environment
       stmt.close();
@@ -165,7 +166,8 @@ public class Controller {
     AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
         "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
     Screen newScreen = new Screen("720x480", 40, 22);
-    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
+    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction",
+        newScreen,
         MonitorType.LCD);
     ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
     productList.add(newAudioProduct);
