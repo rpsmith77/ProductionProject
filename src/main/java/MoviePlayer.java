@@ -12,26 +12,26 @@ public class MoviePlayer extends Product implements MultimediaControl {
 
   @Override
   public void play() {
-    System.out.println("Playing");
+    System.out.println("Playing movie");
   }
 
   @Override
   public void stop() {
-    System.out.println("Stopped");
+    System.out.println("Stopping movie");
   }
 
   @Override
   public void previous() {
-    System.out.println("Previous");
+    System.out.println("Previous movie");
   }
 
   @Override
   public void next() {
-    System.out.println("Next");
+    System.out.println("Next movie");
   }
 
   @Override
   public String toString() {
-    return screen.toString() + "\nMonitor type: " + monitorType;
+    return super.toString() + screen.toString() + "\nMonitor Type: " + monitorType;
   }
 }

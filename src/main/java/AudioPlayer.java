@@ -35,6 +35,6 @@ public class AudioPlayer extends Product implements MultimediaControl {
   // display player info
   public String toString() {
     return super.toString() + "Supported Audio Formats: " + supportedAudioFormats + "\n" +
-        "Supported Playlist Formats: " + supportedPlaylistFormats + "\n";
+        "Supported Playlist Formats: " + supportedPlaylistFormats;
   }
 }

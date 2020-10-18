@@ -26,7 +26,7 @@ public class Screen implements ScreenSpec {
   }
 
   public String toString() {
-    return "Screen:\nResolution: " + resolution + "\n" + "Refresh rate: " + refreshRate + "\n"
-        + "Response time: " + responseTime;
+    return "Screen:\nResolution: " + resolution + "\n" + "Refresh rate: "
+        + refreshRate + "\n" + "Response time: " + responseTime;
   }
 }
