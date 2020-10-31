@@ -5,6 +5,11 @@ public abstract class Product implements Item {
   private ItemType type;
   private String manufacturer;
 
+  Product(String name, String manufacturer, ItemType type) {
+    this.name = name;
+    this.manufacturer = manufacturer;
+    this.type = type;
+  }
 
   public int getId() {
     return id;
@@ -28,12 +33,6 @@ public abstract class Product implements Item {
 
   public ItemType getType() {
     return type;
-  }
-
-  Product(String name, String manufacturer, ItemType type) {
-    this.name = name;
-    this.manufacturer = manufacturer;
-    this.type = type;
   }
 
   public String toString() {

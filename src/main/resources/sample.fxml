@@ -46,11 +46,11 @@
               </children>
             </GridPane>
             <Button fx:id="btnAddProduct" layoutX="297.0" layoutY="109.0" mnemonicParsing="false" onAction="#addProduct" text="Add Product" />
-            <TableView layoutX="14.0" layoutY="153.0" prefHeight="200.0" prefWidth="370.0">
+            <TableView fx:id="tableViewProduct" layoutX="14.0" layoutY="153.0" prefHeight="200.0" prefWidth="370.0">
               <columns>
-                <TableColumn fx:id="productNameCol" prefWidth="115.0" text="Product Name" />
+                <TableColumn fx:id="productNameCol" prefWidth="115.0" text="Name" />
                 <TableColumn fx:id="manufacturerNameCol" prefWidth="129.0" text="Manufacturer" />
-                <TableColumn fx:id="itemTypeCol" prefWidth="124.0" text="Item Type" />
+                <TableColumn fx:id="itemTypeCol" prefWidth="124.0" text="Type" />
               </columns>
             </TableView>
             <Label layoutX="14.0" layoutY="136.0" text="Existing Product" />

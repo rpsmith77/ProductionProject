@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,13 +34,13 @@ public class Controller {
   public TableView<Product> tableViewProduct;
 
   @FXML
-  public TableColumn<?, ?> productNameCol;
+  public TableColumn<Product, String> productNameCol;
 
   @FXML
-  public TableColumn<?, ?> manufacturerNameCol;
+  public TableColumn<Product, String> manufacturerNameCol;
 
   @FXML
-  public TableColumn<?, ?> itemTypeCol;
+  public TableColumn<Product, ItemType> itemTypeCol;
 
   @FXML
   private TextField txtProductName;
@@ -51,6 +53,9 @@ public class Controller {
 
   @FXML
   private Button btnRecordProduction;
+
+  ObservableList<Product> productionLine = FXCollections.observableArrayList();
+
 
   // button 'Add Product' is pressed in Product Tab
   public void addProduct(ActionEvent actionEvent) {
@@ -67,6 +72,8 @@ public class Controller {
     // connect to data base
     connectDb();
 
+    setProductionLogTable();
+
     // add 1 - 10 to combo box
     for (int i = 1; i <= 10; i++) {
       cmbQuantity.getItems().add(String.valueOf(i));
@@ -81,13 +88,29 @@ public class Controller {
     }
     choiceItemType.getSelectionModel().selectFirst();
 
-    productNameCol.setCellFactory(new PropertyValueFactory("productName"));
-    manufacturerNameCol.setCellFactory(new PropertyValueFactory("manufacturerName"));
-    itemTypeCol.setCellFactory(new PropertyValueFactory("itemType"));
-
 
     // test
-    testMultimedia();
+//    testMultimedia();
+  }
+
+  private void setProductionLogTable() {
+    // Set Table
+    productionLine = populateList();
+    productNameCol.setCellFactory(new PropertyValueFactory("Name"));
+    manufacturerNameCol.setCellFactory(new PropertyValueFactory("Manufacturer"));
+    itemTypeCol.setCellFactory(new PropertyValueFactory("Type"));
+    tableViewProduct.setItems(productionLine);
+    // testing
+    for (Product product : productionLine) {
+      System.out.println(product + "\n");
+    }
+  }
+
+  public static ObservableList<Product> populateList() {
+    Screen newScreen = new Screen("720x480", 40, 22);
+    return FXCollections.observableArrayList(
+        new Widget("Please", "Work", ItemType.AUDIO)
+    );
   }
 
   // connect to database
@@ -150,6 +173,15 @@ public class Controller {
       preparedStatement.setString(2, widget.getManufacturer());
       preparedStatement.setString(3, widget.getName());
       preparedStatement.executeUpdate();
+
+      productionLine.add(widget);
+
+      // testing
+      for (Product product : productionLine) {
+        System.out.println(product);
+      }
+
+//      tableViewProduct.getItems().add(widget);
 
       // STEP 4: Clean-up environment
       stmt.close();
