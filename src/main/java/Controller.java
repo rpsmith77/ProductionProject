@@ -34,13 +34,13 @@ public class Controller {
   public TableView<Product> tableViewProduct;
 
   @FXML
-  public TableColumn<Product, String> productNameCol;
+  public TableColumn<?, ?> productNameCol;
 
   @FXML
-  public TableColumn<Product, String> manufacturerNameCol;
+  public TableColumn<?, ?> manufacturerNameCol;
 
   @FXML
-  public TableColumn<Product, ItemType> itemTypeCol;
+  public TableColumn<?, ?> itemTypeCol;
 
   @FXML
   private TextField txtProductName;
@@ -88,30 +88,72 @@ public class Controller {
     }
     choiceItemType.getSelectionModel().selectFirst();
 
-
     // test
 //    testMultimedia();
   }
 
   private void setProductionLogTable() {
-    // Set Table
-    productionLine = populateList();
-    productNameCol.setCellFactory(new PropertyValueFactory("Name"));
-    manufacturerNameCol.setCellFactory(new PropertyValueFactory("Manufacturer"));
-    itemTypeCol.setCellFactory(new PropertyValueFactory("Type"));
-    tableViewProduct.setItems(productionLine);
-    // testing
-    for (Product product : productionLine) {
-      System.out.println(product + "\n");
-    }
-  }
+    final String JDBC_DRIVER = "org.h2.Driver";
+    final String DB_URL = "jdbc:h2:./res/ProdDB";
 
-  public static ObservableList<Product> populateList() {
-    Screen newScreen = new Screen("720x480", 40, 22);
-    return FXCollections.observableArrayList(
-        new Widget("Please", "Work", ItemType.AUDIO)
-    );
+    //  Database credentials
+    final String USER = "";
+    final String PASS = "";
+    Connection conn = null;
+    Statement stmt = null;
+
+    try {
+      // STEP 1: Register JDBC driver
+      Class.forName(JDBC_DRIVER);
+
+      //STEP 2: Open a connection
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+      //STEP 3: Execute a query
+      stmt = conn.createStatement();
+
+      ResultSet rs = stmt.executeQuery("SELECT NAME, MANUFACTURER, TYPE FROM PRODUCT");
+
+      while (rs.next()) {
+        String name = rs.getString(1);
+        String manufacturer = rs.getString(2);
+        String strType = rs.getString(3);
+        ItemType type;
+        switch (strType) {
+          case "AUDIO":
+            type = ItemType.AUDIO;
+            break;
+          case "AUDIO_MOBILE":
+            type = ItemType.AUDIO_MOBILE;
+            break;
+          case "VISUAL":
+            type = ItemType.VISUAL;
+            break;
+          case "VISUAL_MOBILE":
+            type = ItemType.VISUAL_MOBILE;
+            break;
+          default:
+            type = null;
+            break;
+        }
+        productionLine.add(new Widget(name, manufacturer, type));
+      }
+
+      // STEP 4: Clean-up environment
+      stmt.close();
+      conn.close();
+    } catch (ClassNotFoundException | SQLException e) {
+      e.printStackTrace();
+
+    }
+    // Set Table
+    productNameCol.setCellValueFactory(new PropertyValueFactory("Name"));
+    manufacturerNameCol.setCellValueFactory(new PropertyValueFactory("Manufacturer"));
+    itemTypeCol.setCellValueFactory(new PropertyValueFactory("Type"));
+    tableViewProduct.setItems(productionLine);
+
   }
+  
 
   // connect to database
   public void connectDb() {
@@ -181,7 +223,7 @@ public class Controller {
         System.out.println(product);
       }
 
-//      tableViewProduct.getItems().add(widget);
+      tableViewProduct.getItems();
 
       // STEP 4: Clean-up environment
       stmt.close();

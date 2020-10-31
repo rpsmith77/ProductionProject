@@ -63,7 +63,7 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
           <children>
             <Label layoutX="14.0" layoutY="14.0" text="Choose Product" />
-            <ListView layoutX="14.0" layoutY="31.0" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="listViewProduce" layoutX="14.0" layoutY="31.0" prefHeight="200.0" prefWidth="200.0" />
             <Label layoutX="225.0" layoutY="14.0" text="Choose Quantity" />
             <ComboBox fx:id="cmbQuantity" layoutX="225.0" layoutY="31.0" prefWidth="150.0" />
             <Button fx:id="btnRecordProduction" layoutX="255.0" layoutY="204.0" mnemonicParsing="false" onAction="#recordProduction" text="Record Production" />
