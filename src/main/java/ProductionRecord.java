@@ -14,10 +14,10 @@ public class ProductionRecord {
     dateProduced = new Date();
   }
 
-  ProductionRecord(Product product, int numOfProduct){
+  ProductionRecord(Product product, int numOfProduct) {
     ItemType type = product.getType();
     String paddedNumOfProduct = String.format("%05d", numOfProduct);
-    String manufacturer = product.getManufacturer().substring(0,3);
+    String manufacturer = product.getManufacturer().substring(0, 3);
     serialNumber = manufacturer + type.code + paddedNumOfProduct;
     dateProduced = new Date();
   }
@@ -62,7 +62,7 @@ public class ProductionRecord {
     return dateProduced;
   }
 
-  public String toString(){
+  public String toString() {
     return "Prod. Num: " + productionNumber + " Product ID: " + productId
         + " Serial Num: " + serialNumber + " Date: " + dateProduced;
   }
