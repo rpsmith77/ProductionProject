@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -43,6 +44,9 @@ public class Controller {
   public TableColumn<?, ?> itemTypeCol;
 
   @FXML
+  public ListView<Product> listViewProduce;
+
+  @FXML
   private TextField txtProductName;
 
   @FXML
@@ -64,7 +68,15 @@ public class Controller {
 
   // button 'Record Production' is pressed int Production Tab
   public void recordProduction(ActionEvent actionEvent) {
-    System.out.println("You pressed 'Record Product'");
+    ObservableList selectedIndices = listViewProduce.getSelectionModel().getSelectedIndices();
+    for (int i = 0; i < Integer.parseInt(cmbQuantity.getValue()); i++) {
+      for (Object o : selectedIndices) {
+        ProductionRecord pr = new ProductionRecord(productionLine.get((int) o), i);
+        txtAreaProductionLog.setText(txtAreaProductionLog.getText() + "\n" + pr.toString());
+      }
+    }
+
+
   }
 
   // automatically run
@@ -151,9 +163,10 @@ public class Controller {
     manufacturerNameCol.setCellValueFactory(new PropertyValueFactory("Manufacturer"));
     itemTypeCol.setCellValueFactory(new PropertyValueFactory("Type"));
     tableViewProduct.setItems(productionLine);
+    listViewProduce.setItems(productionLine);
 
   }
-  
+
 
   // connect to database
   public void connectDb() {
@@ -216,14 +229,8 @@ public class Controller {
       preparedStatement.setString(3, widget.getName());
       preparedStatement.executeUpdate();
 
+      // add product to observable list
       productionLine.add(widget);
-
-      // testing
-      for (Product product : productionLine) {
-        System.out.println(product);
-      }
-
-      tableViewProduct.getItems();
 
       // STEP 4: Clean-up environment
       stmt.close();
