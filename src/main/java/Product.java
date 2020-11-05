@@ -11,6 +11,10 @@ public abstract class Product implements Item {
     this.type = type;
   }
 
+  public void setId(int id){
+    this.id = id;
+  }
+
   public int getId() {
     return id;
   }

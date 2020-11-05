@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,6 +61,12 @@ public class Controller {
 
   ObservableList<Product> productionLine = FXCollections.observableArrayList();
 
+  ArrayList<ProductionRecord> productionRecords = new ArrayList<>();
+
+  int countAU;
+  int countAM;
+  int countVI;
+  int countVM;
 
   // button 'Add Product' is pressed in Product Tab
   public void addProduct(ActionEvent actionEvent) {
@@ -71,7 +78,24 @@ public class Controller {
     ObservableList selectedIndices = listViewProduce.getSelectionModel().getSelectedIndices();
     for (int i = 0; i < Integer.parseInt(cmbQuantity.getValue()); i++) {
       for (Object o : selectedIndices) {
-        ProductionRecord pr = new ProductionRecord(productionLine.get((int) o), i);
+        // replace i with counter
+        ProductionRecord pr = null;
+        switch (productionLine.get((int) o).getType()){
+          case AUDIO:
+            pr = new ProductionRecord(productionLine.get((int) o), countAU++);
+            break;
+          case VISUAL:
+            pr = new ProductionRecord(productionLine.get((int) o), countVI++);
+            break;
+          case AUDIO_MOBILE:
+            pr = new ProductionRecord(productionLine.get((int) o), countAM++);
+            break;
+          case VISUAL_MOBILE:
+            pr = new ProductionRecord(productionLine.get((int) o), countVM++);
+            break;
+        }
+        productionRecords.add(pr);
+        recordProductionDb(pr);
         txtAreaProductionLog.setText(txtAreaProductionLog.getText() + "\n" + pr.toString());
       }
     }
@@ -122,11 +146,12 @@ public class Controller {
       //STEP 3: Execute a query
       stmt = conn.createStatement();
 
-      ResultSet rs = stmt.executeQuery("SELECT NAME, MANUFACTURER, TYPE FROM PRODUCT");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCT");
 
       while (rs.next()) {
-        String name = rs.getString(1);
-        String manufacturer = rs.getString(2);
+        int id = rs.getInt(1);
+        String name = rs.getString(2);
+        String manufacturer = rs.getString(4);
         String strType = rs.getString(3);
         ItemType type;
         switch (strType) {
@@ -146,8 +171,27 @@ public class Controller {
             type = null;
             break;
         }
-        productionLine.add(new Widget(name, manufacturer, type));
+        Widget widget = new Widget(name, manufacturer, type);
+        widget.setId(id);
+        productionLine.add(widget);
       }
+
+      rs = stmt.executeQuery("SELECT * FROM PRODUCTIONRECORD");
+
+      while (rs.next()){
+        int prodNum = rs.getInt(1);
+        int prodId = rs.getInt(2);
+        String serialNum = rs.getString(3);
+        Date dateProd = rs.getDate(4);
+
+        setProductionCounts(serialNum);
+
+        ProductionRecord pr = new ProductionRecord(prodNum, prodId, serialNum, dateProd);
+        productionRecords.add(pr);
+        txtAreaProductionLog.setText(txtAreaProductionLog.getText() + "\n" + pr.toString());
+      }
+
+
 
       // STEP 4: Clean-up environment
       stmt.close();
@@ -165,6 +209,19 @@ public class Controller {
 
   }
 
+  public void setProductionCounts(String serialNum){
+    String type = String.valueOf(serialNum.charAt(3)) + String.valueOf(serialNum.charAt(4));
+    switch (type){
+      case "AU":
+        countAU++;
+      case "AM":
+        countAM++;
+      case "VI":
+        countVI++;
+      case "VM":
+        countVM++;
+    }
+  }
 
   // connect to database
   public void connectDb() {
@@ -229,6 +286,49 @@ public class Controller {
 
       // add product to observable list
       productionLine.add(widget);
+
+      // STEP 4: Clean-up environment
+      stmt.close();
+      conn.close();
+    } catch (ClassNotFoundException | SQLException e) {
+      e.printStackTrace();
+
+    }
+
+  }
+
+  public void recordProductionDb(ProductionRecord pr){
+    final String JDBC_DRIVER = "org.h2.Driver";
+    final String DB_URL = "jdbc:h2:./res/ProdDB";
+
+    //  Database credentials
+    final String USER = "";
+    final String PASS = "";
+    Connection conn = null;
+    Statement stmt = null;
+
+    try {
+      // STEP 1: Register JDBC driver
+      Class.forName(JDBC_DRIVER);
+
+      //STEP 2: Open a connection
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+      //STEP 3: Execute a query
+      stmt = conn.createStatement();
+
+      // take user choices and enter into Production Record Table
+      String sql = "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) "
+          + "VALUES (?, ?, ?)";
+
+      // convert java.util.date to java.sql.date
+      java.sql.Date sqlDate = new java.sql.Date(pr.getDateProduced().getTime());
+
+      PreparedStatement preparedStatement = conn.prepareStatement(sql);
+      preparedStatement.setInt(1, pr.getProductId());
+      preparedStatement.setString(2, pr.getSerialNumber());
+      preparedStatement.setDate(3, sqlDate);
+      preparedStatement.executeUpdate();
 
       // STEP 4: Clean-up environment
       stmt.close();
