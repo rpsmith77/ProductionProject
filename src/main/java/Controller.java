@@ -80,7 +80,7 @@ public class Controller {
       for (Object o : selectedIndices) {
         // replace i with counter
         ProductionRecord pr = null;
-        switch (productionLine.get((int) o).getType()){
+        switch (productionLine.get((int) o).getType()) {
           case AUDIO:
             pr = new ProductionRecord(productionLine.get((int) o), countAU++);
             break;
@@ -103,8 +103,6 @@ public class Controller {
 
   // automatically run
   public void initialize() {
-    // connect to data base
-    connectDb();
 
     setProductionLogTable();
 
@@ -178,11 +176,11 @@ public class Controller {
 
       rs = stmt.executeQuery("SELECT * FROM PRODUCTIONRECORD");
 
-      while (rs.next()){
+      while (rs.next()) {
         int prodNum = rs.getInt(1);
         int prodId = rs.getInt(2);
         String serialNum = rs.getString(3);
-        Date dateProd = rs.getDate(4);
+        Date dateProd = rs.getTimestamp(4);
 
         setProductionCounts(serialNum);
 
@@ -190,8 +188,6 @@ public class Controller {
         productionRecords.add(pr);
         txtAreaProductionLog.setText(txtAreaProductionLog.getText() + "\n" + pr.toString());
       }
-
-
 
       // STEP 4: Clean-up environment
       stmt.close();
@@ -209,9 +205,9 @@ public class Controller {
 
   }
 
-  public void setProductionCounts(String serialNum){
+  public void setProductionCounts(String serialNum) {
     String type = String.valueOf(serialNum.charAt(3)) + String.valueOf(serialNum.charAt(4));
-    switch (type){
+    switch (type) {
       case "AU":
         countAU++;
       case "AM":
@@ -223,35 +219,6 @@ public class Controller {
     }
   }
 
-  // connect to database
-  public void connectDb() {
-    final String JDBC_DRIVER = "org.h2.Driver";
-    final String DB_URL = "jdbc:h2:./res/ProdDB";
-
-    //  Database credentials
-    final String USER = "";
-    final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
-
-    try {
-      // STEP 1: Register JDBC driver
-      Class.forName(JDBC_DRIVER);
-
-      //STEP 2: Open a connection
-      conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-      //STEP 3: Execute a query
-      stmt = conn.createStatement();
-
-      // STEP 4: Clean-up environment
-      stmt.close();
-      conn.close();
-    } catch (ClassNotFoundException | SQLException e) {
-      e.printStackTrace();
-
-    }
-  }
 
   public void addProductDb() {
     final String JDBC_DRIVER = "org.h2.Driver";
@@ -284,6 +251,14 @@ public class Controller {
       preparedStatement.setString(3, widget.getName());
       preparedStatement.executeUpdate();
 
+      // set product id
+      // https://www.tutorialspoint.com/get-the-last-record-from-a-table-in-mysql-database-with-java
+      ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCT ORDER BY ID DESC LIMIT 1");
+      if (rs.next()){
+        widget.setId(rs.getInt(1));
+        System.out.println(rs.getInt(1));
+      }
+
       // add product to observable list
       productionLine.add(widget);
 
@@ -297,7 +272,7 @@ public class Controller {
 
   }
 
-  public void recordProductionDb(ProductionRecord pr){
+  public void recordProductionDb(ProductionRecord pr) {
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/ProdDB";
 
@@ -322,12 +297,12 @@ public class Controller {
           + "VALUES (?, ?, ?)";
 
       // convert java.util.date to java.sql.date
-      java.sql.Date sqlDate = new java.sql.Date(pr.getDateProduced().getTime());
+      java.sql.Timestamp sqlDate = new java.sql.Timestamp(pr.getDateProduced().getTime());
 
       PreparedStatement preparedStatement = conn.prepareStatement(sql);
       preparedStatement.setInt(1, pr.getProductId());
       preparedStatement.setString(2, pr.getSerialNumber());
-      preparedStatement.setDate(3, sqlDate);
+      preparedStatement.setTimestamp(3, sqlDate);
       preparedStatement.executeUpdate();
 
       // STEP 4: Clean-up environment
@@ -340,23 +315,4 @@ public class Controller {
 
   }
 
-  // test
-//  public static void testMultimedia() {
-//    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
-//        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
-//    Screen newScreen = new Screen("720x480", 40, 22);
-//    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction",
-//        newScreen,
-//        MonitorType.LCD);
-//    ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
-//    productList.add(newAudioProduct);
-//    productList.add(newMovieProduct);
-//    for (MultimediaControl p : productList) {
-//      System.out.println(p);
-//      p.play();
-//      p.stop();
-//      p.next();
-//      p.previous();
-//    }
-//  }
 }

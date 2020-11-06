@@ -1,3 +1,4 @@
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class ProductionRecord {
@@ -15,6 +16,7 @@ public class ProductionRecord {
   }
 
   ProductionRecord(Product product, int numOfProduct) {
+    productId = product.getId();
     ItemType type = product.getType();
     String paddedNumOfProduct = String.format("%05d", numOfProduct);
     String manufacturer = product.getManufacturer().substring(0, 3);
