@@ -45,6 +45,9 @@ public class Controller {
   public TableColumn<?, ?> itemTypeCol;
 
   @FXML
+  public TableColumn<?, ?> prodIdCol;
+
+  @FXML
   public ListView<Product> listViewProduce;
 
   @FXML
@@ -95,7 +98,7 @@ public class Controller {
             break;
         }
         productionRecords.add(pr);
-        recordProductionDb(pr);
+        pr = recordProductionDb(pr);
         txtAreaProductionLog.setText(txtAreaProductionLog.getText() + "\n" + pr.toString());
       }
     }
@@ -200,6 +203,7 @@ public class Controller {
     productNameCol.setCellValueFactory(new PropertyValueFactory("Name"));
     manufacturerNameCol.setCellValueFactory(new PropertyValueFactory("Manufacturer"));
     itemTypeCol.setCellValueFactory(new PropertyValueFactory("Type"));
+    prodIdCol.setCellValueFactory(new PropertyValueFactory("id"));
     tableViewProduct.setItems(productionLine);
     listViewProduce.setItems(productionLine);
 
@@ -210,12 +214,16 @@ public class Controller {
     switch (type) {
       case "AU":
         countAU++;
+        break;
       case "AM":
         countAM++;
+        break;
       case "VI":
         countVI++;
+        break;
       case "VM":
         countVM++;
+        break;
     }
   }
 
@@ -254,9 +262,8 @@ public class Controller {
       // set product id
       // https://www.tutorialspoint.com/get-the-last-record-from-a-table-in-mysql-database-with-java
       ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCT ORDER BY ID DESC LIMIT 1");
-      if (rs.next()){
+      if (rs.next()) {
         widget.setId(rs.getInt(1));
-        System.out.println(rs.getInt(1));
       }
 
       // add product to observable list
@@ -272,7 +279,7 @@ public class Controller {
 
   }
 
-  public void recordProductionDb(ProductionRecord pr) {
+  public ProductionRecord recordProductionDb(ProductionRecord pr) {
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/ProdDB";
 
@@ -305,6 +312,12 @@ public class Controller {
       preparedStatement.setTimestamp(3, sqlDate);
       preparedStatement.executeUpdate();
 
+      ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCTIONRECORD "
+          + "ORDER BY PRODUCTION_NUM DESC LIMIT 1");
+      if (rs.next()) {
+        pr.setProductionNumber(rs.getInt(1));
+      }
+
       // STEP 4: Clean-up environment
       stmt.close();
       conn.close();
@@ -313,6 +326,7 @@ public class Controller {
 
     }
 
+    return pr;
   }
 
 }
