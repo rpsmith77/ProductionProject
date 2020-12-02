@@ -7,7 +7,7 @@ This project was a semester long project for COP 3003, Object Oriented Programmi
  inheritance, and abstraction.
 
 ## Demonstration
-insert gif here
+![Demo](2020-12-02%2018-04-36.gif)
 
 ## [Documentation](https://rpsmith77.github.io/ProductionProject/Main.html)
 
