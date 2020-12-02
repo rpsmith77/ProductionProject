@@ -10,13 +10,13 @@ This project was a semester long project for COP 3003, Object Oriented Programmi
 insert gif here
 
 ## [Documentation](https://rpsmith77.github.io/ProductionProject/Main.html)
+
+
+## Diagrams
 UML Diagram<br/>
 ![UMLDiagram](Top-Level%20Package.png)
 <br/>Database Diagram<br/>
 ![DBDiagram](ProdDB.png)
-
-## Diagrams
-
 
 ## Getting Started
 
