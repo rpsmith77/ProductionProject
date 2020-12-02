@@ -66,7 +66,7 @@ public abstract class Product implements Item {
 
   /**
    * access manufacturer
-   * @return: name of manufacturer
+   * @return name of manufacturer
    */
   public String getManufacturer() {
     return manufacturer;
@@ -81,7 +81,7 @@ public abstract class Product implements Item {
   }
 
   /**
-   * String verison of product's information
+   * String version of product's information
    * @return product's information
    */
   public String toString() {

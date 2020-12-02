@@ -14,7 +14,7 @@ public enum ItemType {
 
   /**
    * default constructor
-   * @param code
+   * @param code: two letter representation of enum
    */
   ItemType(String code) {
     this.code = code;

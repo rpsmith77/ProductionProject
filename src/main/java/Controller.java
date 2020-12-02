@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -55,7 +54,6 @@ public class Controller {
   @FXML
   public ListView<Product> listViewProduce;
 
-
   @FXML
   private TextField txtProductName;
 
@@ -83,7 +81,7 @@ public class Controller {
   /**
    * button 'Add Product' is pressed in Product Tab and adds product to product table in database
    */
-  public void addProduct(ActionEvent actionEvent) {
+  public void addProduct() {
     addProductDb();
   }
 
@@ -92,9 +90,9 @@ public class Controller {
    * button 'Record Production' is pressed int Production Tab records production of specified
    * product
    */
-  public void recordProduction(ActionEvent actionEvent) {
+  public void recordProduction() {
     // Associate each product with index number from list view
-    ObservableList selectedIndices = listViewProduce.getSelectionModel().getSelectedIndices();
+    ObservableList<?> selectedIndices = listViewProduce.getSelectionModel().getSelectedIndices();
     // make as many products as specified in combo box
     for (int i = 0; i < Integer.parseInt(cmbQuantity.getValue()); i++) {
       // select product from selectedIndices
@@ -158,8 +156,8 @@ public class Controller {
     //  Database credentials
     final String USER = "";
     final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
+    Connection conn;
+    Statement stmt;
 
     try {
       // STEP 1: Register JDBC driver
@@ -276,8 +274,8 @@ public class Controller {
     //  Database credentials
     final String USER = "";
     final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
+    Connection conn;
+    Statement stmt;
 
     try {
       // STEP 1: Register JDBC driver
@@ -334,8 +332,8 @@ public class Controller {
     //  Database credentials
     final String USER = "";
     final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
+    Connection conn;
+    Statement stmt;
 
     try {
       // STEP 1: Register JDBC driver
@@ -360,7 +358,7 @@ public class Controller {
       preparedStatement.setTimestamp(3, sqlDate);
       preparedStatement.executeUpdate();
 
-      // set proper prouduction number
+      // set proper production number
       ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCTIONRECORD "
           + "ORDER BY PRODUCTION_NUM DESC LIMIT 1");
       if (rs.next()) {
@@ -376,6 +374,33 @@ public class Controller {
     }
 
     return pr;
+  }
+
+  /**
+   * testing multimedia controls
+   *
+   * @author Scott Vanselow
+   */
+  public static void testMultimedia() {
+
+    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
+        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+    Screen newScreen = new Screen("720x480", 40, 22);
+    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
+        MonitorType.LCD);
+    ArrayList<MultimediaControl> productList = new ArrayList<>();
+
+    productList.add(newAudioProduct);
+    productList.add(newMovieProduct);
+
+    for (MultimediaControl p : productList) {
+      System.out.println(p);
+      p.play();
+      p.stop();
+      p.next();
+      p.previous();
+    }
+
   }
 
 }

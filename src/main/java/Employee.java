@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
  *
  * @author Ryan Smith
  */
+@SuppressWarnings("SpellCheckingInspection")
 public class Employee {
 
   // class variables
