@@ -1,10 +1,22 @@
+/**
+ * Represents an audio player that can play, stop, go forward, and go backward. Stores supported
+ * playlist formats
+ *
+ * @author Ryan Smith
+ */
 public class AudioPlayer extends Product implements MultimediaControl {
 
   // class variables
   private final String supportedAudioFormats;
   private final String supportedPlaylistFormats;
 
-  // constructor
+  /**
+   * Default constructor
+   * @param name: name of player
+   * @param manufacturer: manufacturer name
+   * @param supportedAudioFormats: supported audio formats
+   * @param supportedPlaylistFormats: supported playlist formats
+   */
   AudioPlayer(String name, String manufacturer, String supportedAudioFormats,
       String supportedPlaylistFormats) {
     super(name, manufacturer, ItemType.AUDIO);
@@ -12,27 +24,38 @@ public class AudioPlayer extends Product implements MultimediaControl {
     this.supportedPlaylistFormats = supportedPlaylistFormats;
   }
 
-  // play audio
+  /**
+   * Audio player 'plays'
+   */
   public void play() {
     System.out.println("Playing");
   }
 
-  // stop audio
+  /**
+   * Audio player 'stops'
+   */
   public void stop() {
     System.out.println("Stopping");
   }
 
-  // go to previous song
+  /**
+   * Audio player plays 'previous'
+   */
   public void previous() {
     System.out.println("Previous");
   }
 
-  // go to the next song
+  /**
+   * Audio player plays 'next'
+   */
   public void next() {
     System.out.println("Next");
   }
 
-  // display player info
+  /**
+   * convert audio player info into string
+   * @return  string information of audio player
+   */
   public String toString() {
     return super.toString() + "Supported Audio Formats: " + supportedAudioFormats + "\n" +
         "Supported Playlist Formats: " + supportedPlaylistFormats;

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -17,69 +16,68 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="480.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+  prefHeight="400.0" prefWidth="613.0" tabClosingPolicy="UNAVAILABLE"
+  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="Controller">
   <stylesheets>
-    <URL value="@style.css" />
+    <URL value="@style.css"/>
   </stylesheets>
-  <tabs>
-    <Tab text="Production Line">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="493.0">
-          <children>
-            <GridPane layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="358.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="283.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="10.0" prefWidth="296.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-              <children>
-                <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="82.0" text="Product Name" />
-                <Label text="Manufacturer" GridPane.rowIndex="1" />
-                <Label text="Item Type" GridPane.rowIndex="2" />
-                <TextField fx:id="txtProductName" GridPane.columnIndex="1" />
-                <TextField fx:id="txtManufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ChoiceBox fx:id="choiceItemType" prefHeight="27.0" prefWidth="296.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-              </children>
-            </GridPane>
-            <Button fx:id="btnAddProduct" layoutX="285.0" layoutY="109.0" mnemonicParsing="false" onAction="#addProduct" text="Add Product" />
-            <TableView fx:id="tableViewProduct" layoutX="14.0" layoutY="153.0" prefHeight="200.0" prefWidth="445.0">
-              <columns>
-                <TableColumn fx:id="prodIdCol" prefWidth="75.0" text="ID" />
-                <TableColumn fx:id="productNameCol" prefWidth="115.0" text="Name" />
-                <TableColumn fx:id="manufacturerNameCol" prefWidth="129.0" text="Manufacturer" />
-                <TableColumn fx:id="itemTypeCol" prefWidth="124.0" text="Type" />
-              </columns>
-            </TableView>
-            <Label layoutX="14.0" layoutY="136.0" text="Existing Product" />
-          </children>
-        </AnchorPane>
-      </content>
-    </Tab>
-    <Tab text="Produce">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-          <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Choose Product" />
-            <ListView fx:id="listViewProduce" layoutX="14.0" layoutY="31.0" prefHeight="200.0" prefWidth="284.0" />
-            <Label layoutX="316.0" layoutY="14.0" text="Choose Quantity" />
-            <ComboBox fx:id="cmbQuantity" layoutX="316.0" layoutY="31.0" prefWidth="150.0" />
-            <Button fx:id="btnRecordProduction" layoutX="318.0" layoutY="204.0" mnemonicParsing="false" onAction="#recordProduction" prefHeight="27.0" prefWidth="146.0" text="Record Production" />
-          </children>
-        </AnchorPane>
-      </content>
-    </Tab>
-    <Tab text="Production Log">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="559.0">
-          <children>
-            <TextArea fx:id="txtAreaProductionLog" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="453.0" />
-          </children>
-        </AnchorPane>
-      </content>
-    </Tab>
-  </tabs>
+  <Tab text="Production Line">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="493.0">
+      <GridPane layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="358.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0"
+            prefWidth="283.0"/>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="10.0"
+            prefWidth="296.0"/>
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="82.0"
+          text="Product Name"/>
+        <Label text="Manufacturer" GridPane.rowIndex="1"/>
+        <Label text="Item Type" GridPane.rowIndex="2"/>
+        <TextField fx:id="txtProductName" GridPane.columnIndex="1"/>
+        <TextField fx:id="txtManufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <ChoiceBox fx:id="choiceItemType" prefHeight="27.0" prefWidth="296.0"
+          GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+      </GridPane>
+      <Button fx:id="btnAddProduct" layoutX="285.0" layoutY="109.0" mnemonicParsing="false"
+        onAction="#addProduct" text="Add Product"/>
+      <TableView fx:id="tableViewProduct" layoutX="14.0" layoutY="153.0" prefHeight="200.0"
+        prefWidth="445.0">
+        <columns>
+          <TableColumn fx:id="prodIdCol" prefWidth="75.0" text="ID"/>
+          <TableColumn fx:id="productNameCol" prefWidth="115.0" text="Name"/>
+          <TableColumn fx:id="manufacturerNameCol" prefWidth="129.0" text="Manufacturer"/>
+          <TableColumn fx:id="itemTypeCol" prefWidth="124.0" text="Type"/>
+        </columns>
+      </TableView>
+      <Label layoutX="14.0" layoutY="136.0" text="Existing Product"/>
+    </AnchorPane>
+  </Tab>
+  <Tab text="Produce">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+      <Label layoutX="14.0" layoutY="14.0" text="Choose Product"/>
+      <ListView fx:id="listViewProduce" layoutX="14.0" layoutY="31.0" prefHeight="200.0"
+        prefWidth="284.0"/>
+      <Label layoutX="316.0" layoutY="14.0" text="Choose Quantity"/>
+      <ComboBox fx:id="cmbQuantity" layoutX="316.0" layoutY="31.0" prefWidth="150.0"/>
+      <Button fx:id="btnRecordProduction" layoutX="318.0" layoutY="204.0"
+        mnemonicParsing="false" onAction="#recordProduction" prefHeight="27.0"
+        prefWidth="146.0" text="Record Production"/>
+    </AnchorPane>
+  </Tab>
+  <Tab text="Production Log">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="603.0">
+      <children>
+        <TextArea fx:id="txtAreaProductionLog" layoutX="14.0" layoutY="14.0" prefHeight="200.0"
+          prefWidth="562.0"/>
+      </children>
+    </AnchorPane>
+  </Tab>
 </TabPane>

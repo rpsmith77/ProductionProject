@@ -20,6 +20,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * Controller class for the GUI. Contains interactions between the GUI, classes, and the database
+ *
+ * @author Ryan Smith
+ */
 public class Controller {
 
   // FXML objects
@@ -50,6 +55,7 @@ public class Controller {
   @FXML
   public ListView<Product> listViewProduce;
 
+
   @FXML
   private TextField txtProductName;
 
@@ -62,27 +68,39 @@ public class Controller {
   @FXML
   private Button btnRecordProduction;
 
-  ObservableList<Product> productionLine = FXCollections.observableArrayList();
+  // contains list of Products
+  final ObservableList<Product> productionLine = FXCollections.observableArrayList();
 
-  ArrayList<ProductionRecord> productionRecords = new ArrayList<>();
+  // contains list of produced products
+  final ArrayList<ProductionRecord> productionRecords = new ArrayList<>();
 
+  // keeps track of total of each product type for serial number
   int countAU;
   int countAM;
   int countVI;
   int countVM;
 
-  // button 'Add Product' is pressed in Product Tab
+  /**
+   * button 'Add Product' is pressed in Product Tab and adds product to product table in database
+   */
   public void addProduct(ActionEvent actionEvent) {
     addProductDb();
   }
 
-  // button 'Record Production' is pressed int Production Tab
+
+  /**
+   * button 'Record Production' is pressed int Production Tab records production of specified
+   * product
+   */
   public void recordProduction(ActionEvent actionEvent) {
+    // Associate each product with index number from list view
     ObservableList selectedIndices = listViewProduce.getSelectionModel().getSelectedIndices();
+    // make as many products as specified in combo box
     for (int i = 0; i < Integer.parseInt(cmbQuantity.getValue()); i++) {
+      // select product from selectedIndices
       for (Object o : selectedIndices) {
-        // replace i with counter
         ProductionRecord pr = null;
+        // create specified product
         switch (productionLine.get((int) o).getType()) {
           case AUDIO:
             pr = new ProductionRecord(productionLine.get((int) o), countAU++);
@@ -97,14 +115,19 @@ public class Controller {
             pr = new ProductionRecord(productionLine.get((int) o), countVM++);
             break;
         }
+        // add production to productionRecords list
         productionRecords.add(pr);
+        // add production to db
         pr = recordProductionDb(pr);
+        // update production record log
         txtAreaProductionLog.setText(txtAreaProductionLog.getText() + "\n" + pr.toString());
       }
     }
   }
 
-  // automatically run
+  /**
+   * Automatically run at the beginning. Sets up all the table's and links with DB
+   */
   public void initialize() {
 
     setProductionLogTable();
@@ -123,10 +146,11 @@ public class Controller {
     }
     choiceItemType.getSelectionModel().selectFirst();
 
-    // test
-//    testMultimedia();
   }
 
+  /**
+   * Populate production log table and production record with data from DB
+   */
   private void setProductionLogTable() {
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/ProdDB";
@@ -147,14 +171,16 @@ public class Controller {
       //STEP 3: Execute a query
       stmt = conn.createStatement();
 
+      // Select all entries in PRODUCT table
       ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCT");
-
+      // Loop through all entries in PRODUCT table
       while (rs.next()) {
         int id = rs.getInt(1);
         String name = rs.getString(2);
         String manufacturer = rs.getString(4);
         String strType = rs.getString(3);
         ItemType type;
+        // Assign proper Item Type
         switch (strType) {
           case "AUDIO":
             type = ItemType.AUDIO;
@@ -172,23 +198,28 @@ public class Controller {
             type = null;
             break;
         }
+        // add product to product line
         Widget widget = new Widget(name, manufacturer, type);
         widget.setId(id);
         productionLine.add(widget);
       }
 
+      // select all entries from PRODCUTIONRECORD table
       rs = stmt.executeQuery("SELECT * FROM PRODUCTIONRECORD");
-
+      // loop through all entries
       while (rs.next()) {
         int prodNum = rs.getInt(1);
         int prodId = rs.getInt(2);
         String serialNum = rs.getString(3);
         Date dateProd = rs.getTimestamp(4);
 
+        // increment count for each product to ensure correct serial numbers
         setProductionCounts(serialNum);
 
+        // create and add product to productionRecords list
         ProductionRecord pr = new ProductionRecord(prodNum, prodId, serialNum, dateProd);
         productionRecords.add(pr);
+        // update production record log
         txtAreaProductionLog.setText(txtAreaProductionLog.getText() + "\n" + pr.toString());
       }
 
@@ -199,18 +230,26 @@ public class Controller {
       e.printStackTrace();
 
     }
-    // Set Table
-    productNameCol.setCellValueFactory(new PropertyValueFactory("Name"));
-    manufacturerNameCol.setCellValueFactory(new PropertyValueFactory("Manufacturer"));
-    itemTypeCol.setCellValueFactory(new PropertyValueFactory("Type"));
-    prodIdCol.setCellValueFactory(new PropertyValueFactory("id"));
+    // Set Production List Table
+    productNameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    manufacturerNameCol.setCellValueFactory(new PropertyValueFactory<>("Manufacturer"));
+    itemTypeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+    prodIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     tableViewProduct.setItems(productionLine);
+    // Set Produce list view
     listViewProduce.setItems(productionLine);
 
   }
 
+  /**
+   * increment count for each product to ensure correct serial numbers to increment count for each
+   * product to ensure correct serial numbers
+   *
+   * @param serialNum: take produced item's serial number
+   */
   public void setProductionCounts(String serialNum) {
-    String type = String.valueOf(serialNum.charAt(3)) + String.valueOf(serialNum.charAt(4));
+    // sample serial number 'AppAU00000'. parses AU
+    String type = serialNum.charAt(3) + String.valueOf(serialNum.charAt(4));
     switch (type) {
       case "AU":
         countAU++;
@@ -227,7 +266,9 @@ public class Controller {
     }
   }
 
-
+  /**
+   * add product to PRODUCT table and then update GUI product table
+   */
   public void addProductDb() {
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/ProdDB";
@@ -279,6 +320,13 @@ public class Controller {
 
   }
 
+  /**
+   * Takes the produced item, adds it to PRODUCTIONRECORD in table, then return product with proper
+   * production number.
+   *
+   * @param pr: production record to record in PRODUCTIONRECORD table
+   * @return updated production record to add to Production log in GUI
+   */
   public ProductionRecord recordProductionDb(ProductionRecord pr) {
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/ProdDB";
@@ -312,6 +360,7 @@ public class Controller {
       preparedStatement.setTimestamp(3, sqlDate);
       preparedStatement.executeUpdate();
 
+      // set proper prouduction number
       ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCTIONRECORD "
           + "ORDER BY PRODUCTION_NUM DESC LIMIT 1");
       if (rs.next()) {
