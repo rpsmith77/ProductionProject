@@ -12,9 +12,10 @@ public class AudioPlayer extends Product implements MultimediaControl {
 
   /**
    * Default constructor
-   * @param name: name of player
-   * @param manufacturer: manufacturer name
-   * @param supportedAudioFormats: supported audio formats
+   *
+   * @param name:                     name of player
+   * @param manufacturer:             manufacturer name
+   * @param supportedAudioFormats:    supported audio formats
    * @param supportedPlaylistFormats: supported playlist formats
    */
   AudioPlayer(String name, String manufacturer, String supportedAudioFormats,
@@ -54,7 +55,8 @@ public class AudioPlayer extends Product implements MultimediaControl {
 
   /**
    * convert audio player info into string
-   * @return  string information of audio player
+   *
+   * @return string information of audio player
    */
   public String toString() {
     return super.toString() + "Supported Audio Formats: " + supportedAudioFormats + "\n" +

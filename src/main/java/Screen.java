@@ -12,8 +12,9 @@ public class Screen implements ScreenSpec {
 
   /**
    * Default constructor
-   * @param resolution: screen pixel resolution
-   * @param refreshRate: screen refresh rates in Hz
+   *
+   * @param resolution:   screen pixel resolution
+   * @param refreshRate:  screen refresh rates in Hz
    * @param responseTime: screen response time in ms
    */
   Screen(String resolution, int refreshRate, int responseTime) {
@@ -24,6 +25,7 @@ public class Screen implements ScreenSpec {
 
   /**
    * access screen's resolution
+   *
    * @return screen's resolution in pixels
    */
   @Override
@@ -33,6 +35,7 @@ public class Screen implements ScreenSpec {
 
   /**
    * access screen's refresh rate
+   *
    * @return screen's refresh rate in hz
    */
   @Override
@@ -42,6 +45,7 @@ public class Screen implements ScreenSpec {
 
   /**
    * access screen's response time
+   *
    * @return screen's response time in ms
    */
   @Override
@@ -51,6 +55,7 @@ public class Screen implements ScreenSpec {
 
   /**
    * Screen's information in a string
+   *
    * @return screen's information in a string
    */
   public String toString() {

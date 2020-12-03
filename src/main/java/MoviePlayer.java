@@ -11,10 +11,11 @@ public class MoviePlayer extends Product implements MultimediaControl {
 
   /**
    * default constructor
-   * @param name: Product name
+   *
+   * @param name:         Product name
    * @param manufacturer: Product manufacturer
-   * @param screen: Product's screen information
-   * @param monitorType: Product's monitor type
+   * @param screen:       Product's screen information
+   * @param monitorType:  Product's monitor type
    */
   MoviePlayer(String name, String manufacturer, Screen screen, MonitorType monitorType) {
     super(name, manufacturer, ItemType.VISUAL);
@@ -57,6 +58,7 @@ public class MoviePlayer extends Product implements MultimediaControl {
 
   /**
    * return string version of product's information
+   *
    * @return string version of product's information
    */
   @Override

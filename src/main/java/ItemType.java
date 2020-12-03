@@ -14,6 +14,7 @@ public enum ItemType {
 
   /**
    * default constructor
+   *
    * @param code: two letter representation of enum
    */
   ItemType(String code) {
@@ -22,6 +23,7 @@ public enum ItemType {
 
   /**
    * return ItemType as its code
+   *
    * @return code for item type
    */
   private String code() {

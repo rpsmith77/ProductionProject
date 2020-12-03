@@ -48,6 +48,7 @@ public class Employee {
 
   /**
    * create user name from first letter of first name and last name
+   *
    * @param name: Employee's name
    */
   private void setUsername(String name) {
@@ -64,6 +65,7 @@ public class Employee {
 
   /**
    * checks if name has space indicating first and last name
+   *
    * @param name: employee name
    * @return true if name contains a space
    */
@@ -73,6 +75,7 @@ public class Employee {
 
   /**
    * set email address to first name and last name as one word
+   *
    * @param name: employee name
    */
   private void setEmail(String name) {
@@ -88,6 +91,7 @@ public class Employee {
 
   /**
    * checks if password contains 'a-z', 'A-Z', or '-+_!@#$%^&*., ?'
+   *
    * @param password: Employee email
    * @return returns true if password contains required characters
    */
@@ -100,6 +104,7 @@ public class Employee {
 
   /**
    * string version of employee information
+   *
    * @return employee info
    */
   public String toString() {

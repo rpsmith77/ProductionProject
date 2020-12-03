@@ -1,16 +1,20 @@
-.root{
+.root {
   -fx-background-color: #E76F51;
 }
-.label{
+
+.label {
   -fx-text-fill: #264653;
 }
+
 .button {
   -fx-background-color: #E76F51;
 }
-.tab-pane>*.tab-header-area>*.tab-header-background {
+
+.tab-pane > *.tab-header-area > *.tab-header-background {
   -fx-background-color: -fx-outer-border, -fx-text-box-border, #E9C46A;
 }
-.tab-pane{
+
+.tab-pane {
   -fx-background-color: #E9C46A;
 }
 

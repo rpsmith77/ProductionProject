@@ -1,6 +1,6 @@
 /**
- * Uses the Product abstract class to create a product that can be added to the database and used
- * to record production
+ * Uses the Product abstract class to create a product that can be added to the database and used to
+ * record production
  *
  * @author Ryan Smith
  */
